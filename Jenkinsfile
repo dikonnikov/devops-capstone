@@ -9,25 +9,26 @@ pipeline {
 
     stage('Build image') {
       steps {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+        withCredentials(bindings: [[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
           sh 'docker build -t meow13th/nginx-web .'
         }
-      }
 
+      }
     }
 
     stage('Upload image') {
       steps {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+        withCredentials(bindings: [[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
           sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
           sh 'docker image push meow13th/nginx-web'
         }
+
       }
     }
 
     stage('Rolling deployment to EKS') {
       steps {
-          sh 'kubectl set image deployment/devops-capstone nginx=meow13th/nginx-web:latest'
+        sh 'kubectl set image deployment.apps/devops-capstone nginx=meow13th/nginx-web:latest'
       }
     }
 
