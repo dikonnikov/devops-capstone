@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('error') {
+    stage('Lint HTML') {
       steps {
         sh '''tidy -q -e webcontent/*.html
    '''
