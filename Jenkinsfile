@@ -8,5 +8,11 @@ pipeline {
       }
     }
 
+    stage('Build image') {
+      steps {
+        sh 'docker build -t nginx-web .'
+      }
+    }
+
   }
 }
