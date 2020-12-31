@@ -25,5 +25,11 @@ pipeline {
       }
     }
 
+    stage('Rolling deployment to EKS') {
+      steps {
+          sh 'kubectl set image deployment/devops-capstone nginx=meow13th/nginx-web:latest'
+      }
+    }
+
   }
 }
