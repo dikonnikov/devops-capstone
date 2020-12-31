@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-capstone
+  labels:
+    app: nginx-web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-web
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: nginx-web
+    spec:
+      containers:
+      - name: nginx-web
+        image: meow13th/nginx-web:latest
+        ports:
+        - containerPort: 80
