@@ -1,0 +1,10 @@
+[
+    {
+        "ParameterKey": "EnvironmentName",
+        "ParameterValue": "DevOps-Capstone"
+    },
+    {
+        "ParameterKey": "ServerPrivateKeyName",
+        "ParameterValue": "meow-nvirginia"
+    }
+]

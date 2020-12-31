@@ -1,0 +1,60 @@
+Description: >
+    Dmitry Ikonnikov / Udacity 2020
+Parameters:
+    EnvironmentName:
+        Description: An environment name that will be prefixed to resource names
+        Type: String
+    ServerPrivateKeyName:
+        Description: Name of the key used to access bastion host
+        Type: String  
+        
+Resources:
+  ServerSecGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH
+      VpcId:
+        Fn::ImportValue:
+          !Sub "${EnvironmentName}-VPCID"
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 8080
+        ToPort: 8080
+        CidrIp: 0.0.0.0/24
+      SecurityGroupEgress:
+      - IpProtocol: tcp
+        FromPort: 0
+        ToPort: 65535
+        CidrIp: 0.0.0.0/0
+
+  Server:   
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro 
+      ImageId: ami-00ddb0e5626798373
+      KeyName: 
+        Ref: ServerPrivateKeyName
+      NetworkInterfaces: 
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          GroupSet: 
+            - Ref: "ServerSecGroup"
+          SubnetId: 
+            Fn::ImportValue: !Sub "${EnvironmentName}-PUB1-SN"
+      "Tags" : [
+            {"Key" : "Name", "Value" : "Capstone Server"}
+      ]
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          apt-get update -y
+          apt-get install openjdk-8-jdk -y
+
+
+
+
+     
