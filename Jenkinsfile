@@ -9,12 +9,18 @@ pipeline {
     }
 
     stage('Build image') {
+<<<<<<< HEAD
       steps{
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
           sh 'docker build -t meow13th/nginx-web .'
         }
       }
 
+=======
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+        sh 'docker build -t meow13th/nginx-web .'
+        }
+>>>>>>> 05b9a6fe78f99510261ea6e0b3b360293fdfad52
     }
 
     stage('Upload image') {
