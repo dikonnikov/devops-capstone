@@ -29,11 +29,7 @@ pipeline {
     stage('Rolling deployment to EKS') {
       steps {
         withAWS(region: 'us-east-1', credentials: 'Capstone') {
-<<<<<<< HEAD
           sh 'kubectl set image deployment/devops-capstone nginx-web=meow13th/nginx-web:latest' 
-=======
-          sh 'kubectl set image deployment/devops-capstone nginx=meow13th/nginx-web:latest' 
->>>>>>> 978cc3a5e949a4639b8f5431221a3c1e8e654459
         }
       }
     }
